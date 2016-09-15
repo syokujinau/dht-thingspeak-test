@@ -10,22 +10,46 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+        <!-- Imports WF8266R -->
+    <script src="http://wf8266.com/wf8266r/webcomponent/jquery-2.1.4.min.js"></script>
+    <script src="http://wf8266.com/wf8266r/webcomponent/wf8266r/wf8266r.js"></script>
+    <!-- <link href="http://wf8266.com/wf8266r/webcomponent/wf8266r/wf8266r.css" rel="stylesheet" /> -->
 
-    <title>居家溫溼度監測站</title>
+    <title>居家環境監測站</title>
+
+    <script>
+        document.addEventListener('wf8266r-ready', function (e) {
+
+            setInterval(function(){
+                GPIO.dht11(14,function(dht){
+                    $("#Humidity").text(dht.Humidity + " %");
+                    $("#C").text(dht.C);
+                    $("#F").text(dht.F);
+                });
+                },3000); //試著改改時間 1 秒 = 1000
+            }, false);
+        $(function () {
+            //載入 WF8266R 元件
+            GPIO.init();
+        });
+    </script>
+
   </head>
 
   <body>
     <header>
       <div class="inner">
-        <h1>Dht-thingspeak-test</h1>
-        <h2></h2>
+      <h1>居家環境監測站</h1>
+        <h2>Dht-thingspeak-test by 林宇謙</h2>
         <a href="https://github.com/syokujinau/dht-thingspeak-test" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
-
+<!-- ***** -->
+<!--     <unu-wf8266r ip="192.168.0.7" websocket uuid="d6e57e21-9f18-4ca1-b28b-ef2d0200dfa" device="3863"></unu-wf8266r>
+    濕度 ： <span id="Humidity"></span><br /><br />
+    溫度 C ： <span id="C"></span><br /><br />
+    溫度 F ： <span id="F"></span> -->
+<!-- ***** -->
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
